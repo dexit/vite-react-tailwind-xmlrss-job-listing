@@ -3,64 +3,78 @@ import logo from './logo.svg'
 import './App.css'
 import React from 'react'
 function MyComponent() {
-  const [vacancies, setVacancies] = React.useState([])
-  const [searchTerm, setSearchTerm] = React.useState('')
-  const [selectedVacancy, setSelectedVacancy] = React.useState(null)
-  const [isDetailsPopupOpen, setIsDetailsPopupOpen] = React.useState(false)
-  const [searchCity, setSearchCity] = React.useState('')
+  const [vacancies, setVacancies] = React.useState([]);
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const [selectedVacancy, setSelectedVacancy] = React.useState(null);
+  const [isDetailsPopupOpen, setIsDetailsPopupOpen] = React.useState(false);
+  const [searchCity, setSearchCity] = React.useState('');
+  const [channelFilter, setChannelFilter] = React.useState('All');
+  const channel1Label = 'Internal';
+  const channel2Label = 'External';
 
-  const parseXML = xmlString => {
-    const parser = new DOMParser()
-    const xmlDoc = parser.parseFromString(xmlString, 'text/xml')
-    const items = xmlDoc.getElementsByTagName('item')
-    return Array.from(items).map(item => {
-      const vacancy = {}
-      Array.from(item.children).forEach(child => {
-        vacancy[child.tagName.toLowerCase()] = child.textContent
-      })
-      return vacancy
-    })
-  }
-
-  React.useEffect(() => {
-    fetch('https://sortmycors.rihards-man-private.workers.dev/corsproxy/?channel=1')
+  const fetchAndUpdateVacancies = (url, sourceLabel) => {
+    fetch(url)
       .then(response => response.text())
       .then(data => {
-        const cleanData = data
-          .replace(/<\/?rss[^>]*>/g, '')
-          .replace(/<channel>/g, '<div>')
-          .replace(/<\/channel>/g, '</div>')
-        return parseXML(cleanData)
+        const cleanData = data.replace(/<\/?rss[^>]*>/g, '')
+                              .replace(/<channel>/g, '<div>')
+                              .replace(/<\/channel>/g, '</div>');
+        return parseXML(cleanData, sourceLabel);
       })
-      .then(parsedData => setVacancies(parsedData))
-      .catch(error => console.error('Error fetching data: ', error))
-  }, [])
+      .then(parsedData => {
+        setVacancies(prevVacancies => [...prevVacancies, ...parsedData]);
+      })
+      .catch(error => console.error('Error fetching data: ', error));
+  };
+
+  const parseXML = (xmlString, source) => {
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
+      const items = xmlDoc.getElementsByTagName('item');
+      return Array.from(items).map(item => {
+        const vacancy = { source };
+        Array.from(item.children).forEach(child => {
+          vacancy[child.tagName.toLowerCase()] = child.textContent;
+        });
+        return vacancy;
+      });
+  };
+
+  React.useEffect(() => {
+    fetchAndUpdateVacancies('https://sortmycors.rihards-man-private.workers.dev/corsproxy/?channel=1', 'Channel1');
+    fetchAndUpdateVacancies('https://sortmycors.rihards-man-private.workers.dev/corsproxy/?channel=2', 'Channel2');
+  }, []);
 
   const handleDetailsClick = vacancy => {
-    setSelectedVacancy(vacancy)
-    setIsDetailsPopupOpen(true)
-  }
+    setSelectedVacancy(vacancy);
+    setIsDetailsPopupOpen(true);
+  };
 
   const handleCloseDetails = () => {
-    setIsDetailsPopupOpen(false)
-  }
+    setIsDetailsPopupOpen(false);
+  };
 
   const filteredVacancies = vacancies.filter(vacancy => {
-    return vacancy.jobtitle.toLowerCase().includes(searchTerm.toLowerCase()) && vacancy.city.includes(searchCity)
-  })
+    return (
+      vacancy.jobtitle.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      vacancy.city.includes(searchCity) &&
+      (channelFilter === 'All' || vacancy.source === channelFilter)
+    );
+  });
 
-  const cities = [...new Set(vacancies.map(vacancy => vacancy.city))]
+  const cities = [...new Set(vacancies.map(vacancy => vacancy.city))];
+  const channels = [
+    { value: 'All', label: 'All' },
+    { value: 'Channel1', label: channel1Label },
+    { value: 'Channel2', label: channel2Label }
+  ];
 
   const renderVacancyDetails = vacancy => {
     return Object.entries(vacancy).map(([key, value], index) => (
       <div data-part={key} key={index} className="align-left flex flex-wrap mb-2">
         <div className="text-left text-sm pl-2" data-part={key}>
           <span className="text-sm text-left font-bold">
-            {key
-              .replace(/([A-Z])/g, ' $1')
-              .charAt(0)
-              .toUpperCase() + key.slice(1)}
-            :
+            {key.charAt(0).toUpperCase() + key.slice(1).replace(/([a-z])([A-Z])/g, '$1 $2')}: 
           </span>
         </div>
         {key === 'joburl' ? (
@@ -91,8 +105,8 @@ function MyComponent() {
           </span>
         )}
       </div>
-    ))
-  }
+    ));
+  };
 
   return (
     <React.Fragment>
@@ -109,11 +123,18 @@ function MyComponent() {
           value={searchCity}
           onChange={e => setSearchCity(e.target.value)}
         >
-          <option value="">Filter by city</option>
+          <option value="">Location</option>
           {cities.map((city, i) => (
-            <option key={i} value={city}>
-              {city}
-            </option>
+            <option key={i} value={city}>{city}</option>
+          ))}
+        </select>
+        <select
+          className="rounded-lg transition-height duration-500 ease-in-out block px-3 py-2 bg-white border shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500"
+          value={channelFilter}
+          onChange={e => setChannelFilter(e.target.value)}
+        >
+          {channels.map((channel, i) => (
+            <option key={i} value={channel.value}>{channel.label}</option>
           ))}
         </select>
       </div>
@@ -125,11 +146,11 @@ function MyComponent() {
                 data-part="vacancy"
                 id={vacancy.reference}
                 data-jobref={vacancy.reference}
-                className="card flex vacancy flex-wrap w-full justify-between bg-white p-4 shadow-lg rounded-lg transition-height duration-500 ease-in-out"
+                className="card flex vacancy flex-wrap w-full bg-white p-4 justify-between shadow-lg rounded-lg transition-height duration-500 ease-in-out"
+                data-source={vacancy.source}
               >
                 <div className="w-full dflex text-sm text-left text-gray-400">Ref: {vacancy.reference}</div>
                 <h2 className="w-full text-xl font-semibold mb-2">{vacancy.jobtitle}</h2>
-
                 <div className="text-sm text-gray-400">
                   {vacancy.city}, {vacancy.location}
                 </div>
@@ -137,8 +158,9 @@ function MyComponent() {
                   {vacancy.vacancydescription.split(' ').slice(0, 25).join(' ')}
                   {vacancy.vacancydescription.length > 25 ? '...' : ''}
                 </p>
-
-                <div className="text-sm text-gray-400">Closing: {vacancy.closingdate}</div>
+                <div className="text-sm text-gray-400">
+                  Closing: {vacancy.closingdate}
+                </div>
                 <button
                   className="mt-2 text-green-500 hover:underline py-2"
                   onClick={() => handleDetailsClick(vacancy)}
@@ -146,15 +168,11 @@ function MyComponent() {
                   More Details
                 </button>
               </div>
-           
             </React.Suspense>
-            
           ))
-        
         ) : (
           <p>No vacancies found.</p>
         )}
-           <span> Total : {filteredVacancies.length} </span>
       </div>
       {isDetailsPopupOpen && selectedVacancy && (
         <div
@@ -178,19 +196,11 @@ function MyComponent() {
               <div className="mt-2 px-2 py-3 vacanypopup" data-part="popupVacancy">
                 {renderVacancyDetails(selectedVacancy)}
               </div>
-              <div className="flex text-right items-right px-4 py-3">
-                <button
-                  className="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-auto shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors duration-300"
-                  onClick={handleCloseDetails}
-                >
-                  Close
-                </button>
-              </div>
             </div>
           </div>
         </div>
       )}
     </React.Fragment>
-  )
+  );
 }
 export default MyComponent
