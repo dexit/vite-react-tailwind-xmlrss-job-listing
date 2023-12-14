@@ -1,6 +1,7 @@
 module.exports = {
   presets: [],
-  content: ['./src/**/*.{html,js,css,jsx}'],
+ // content: ['./src/**/*.{html,js,css,jsx,tsx}'],
+  content: ['./src/**/*.{vue,js,ts,jsx,tsx}', './index.html'],
   darkMode: ['class', '[data-mode="dark"]'],
   theme: {
     color: {
