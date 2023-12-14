@@ -1,50 +1,55 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+
 function MyComponent() {
-  const [vacancies, setVacancies] = React.useState([]);
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [selectedVacancy, setSelectedVacancy] = React.useState(null);
-  const [isDetailsPopupOpen, setIsDetailsPopupOpen] = React.useState(false);
-  const [searchCity, setSearchCity] = React.useState('');
-  const [channelFilter, setChannelFilter] = React.useState('All');
+  const [vacancies, setVacancies] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedVacancy, setSelectedVacancy] = useState(null);
+  const [isDetailsPopupOpen, setIsDetailsPopupOpen] = useState(false);
+  const [searchCity, setSearchCity] = useState('');
+  const [channelFilter, setChannelFilter] = useState('All');
   const channel1Label = 'Staff Vacancies';
   const channel2Label = 'External Vacancies';
 
   const fetchAndUpdateVacancies = (url, sourceLabel) => {
     fetch(url)
-      .then(response => response.text())
-      .then(data => {
-        const cleanData = data.replace(/<\/?rss[^>]*>/g, '')
-                              .replace(/<channel>/g, '<div>')
-                              .replace(/<\/channel>/g, '</div>');
+      .then((response) => response.text())
+      .then((data) => {
+        const cleanData = data
+          .replace(/<\/?rss[^>]*>/g, '')
+          .replace(/<channel>/g, '<div>')
+          .replace(/<\/channel>/g, '</div>');
         return parseXML(cleanData, sourceLabel);
       })
-      .then(parsedData => {
-        setVacancies(prevVacancies => [...prevVacancies, ...parsedData]);
+      .then((parsedData) => {
+        setVacancies((prevVacancies) => [...prevVacancies, ...parsedData]);
       })
-      .catch(error => console.error('Error fetching data: ', error));
+      .catch((error) => console.error('Error fetching data: ', error));
   };
 
   const parseXML = (xmlString, source) => {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
-      const items = xmlDoc.getElementsByTagName('item');
-      return Array.from(items).map(item => {
-        const vacancy = { source };
-        Array.from(item.children).forEach(child => {
-          vacancy[child.tagName.toLowerCase()] = child.textContent;
-        });
-        return vacancy;
+    const items = xmlDoc.getElementsByTagName('item');
+    return Array.from(items).map((item) => {
+      const vacancy = { source };
+      Array.from(item.children).forEach((child) => {
+        vacancy[child.tagName.toLowerCase()] = child.textContent;
       });
+      return vacancy;
+    });
   };
 
-  React.useEffect(() => {
-    fetchAndUpdateVacancies('https://sortmycors.rihards-man-private.workers.dev/corsproxy/?channel=1', 'Channel1');
-    fetchAndUpdateVacancies('https://sortmycors.rihards-man-private.workers.dev/corsproxy/?channel=2', 'Channel2');
+  useEffect(() => {
+    setVacancies([]); // Reset vacancies when component mounts
+    fetchAndUpdateVacancies(
+      'https://sortmycors.rihards-man-private.workers.dev/corsproxy/?channel=1',
+      'Channel1'
+    );
+    fetchAndUpdateVacancies(
+      'https://sortmycors.rihards-man-private.workers.dev/corsproxy/?channel=2',
+      'Channel2'
+    );
   }, []);
-
   const handleDetailsClick = vacancy => {
     setSelectedVacancy(vacancy);
     setIsDetailsPopupOpen(true);
@@ -201,9 +206,10 @@ function MyComponent() {
           <p>No vacancies found.</p>
         )}
 
-      <div className="flex w-full text-gray-500 p-3"> Results shown : {filteredVacancies.length} </div>
 
       </div>
+      <div className="flex w-full text-gray-500 p-3"> Results shown : {filteredVacancies.length} </div>
+
       {isDetailsPopupOpen && selectedVacancy && (
         <div
           className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full transition-opacity duration-300 ease-in-out"
