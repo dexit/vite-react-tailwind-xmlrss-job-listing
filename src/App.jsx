@@ -133,12 +133,13 @@ function MyComponent() {
                 <div className="text-sm text-gray-400 group-hover:text-gray-400">
                   {vacancy.city}, {vacancy.location}
                 </div>
-                <p className="text-sm mb-2 text-gray-500 group-hover:text-gray-500">
-                  {vacancy.vacancydescription.split(' ').slice(0, 25).join(' ')}
-                  {vacancy.vacancydescription.length > 25 ? '...' : ''}
-                </p>
+                <div className="text-sm mb-2 text-gray-400 group-hover:text-gray-500" >
+                 
+                {vacancy.salaryrange}
+                
+                </div>
 
-                <div className="text-sm text-gray-400 group-hover:text-gray-400">Closing: {vacancy.closingdate}</div>
+                <div className="text-sm text-gray-400 group-hover:text-gray-400">Experience: {vacancy.experience}</div>
                 <button
                   className="mt-2 text-green-500 hover:underline py-2 group-hover:text-green-500 hover:underline-offset-4 transition-all"
                   onClick={() => handleDetailsClick(vacancy)}
