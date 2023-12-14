@@ -23,7 +23,7 @@ function MyComponent() {
   }
 
   React.useEffect(() => {
-    fetch('https://sortmycors.rihards-man-private.workers.dev/corsproxy/?channel=1')
+    fetch('https://sortmycors.rihards-man-private.workers.dev/corsproxy/?channel=2')
       .then(response => response.text())
       .then(data => {
         const cleanData = data
