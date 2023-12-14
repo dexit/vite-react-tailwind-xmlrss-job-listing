@@ -125,26 +125,26 @@ function MyComponent() {
 
   return (
     <React.Fragment>
-      <div className="flex space-x-2 mb-4">
+      <div className="flex space-x-2 mb-4 p-3">
         <input
           type="text"
-          className="flex-1 block px-3 py-2 bg-white border shadow-sm border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-500 rounded-lg transition-height duration-500 ease-in-out"
+          className="flex-1 block w-2/4 px-3 py-2 bg-white border shadow-sm border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-500 rounded-lg transition-height duration-500 ease-in-out"
           placeholder="Search by title..."
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
         />
         <select
-          className="rounded-lg transition-height duration-500 ease-in-out block px-3 py-2 bg-white border shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500"
+          className="rounded-lg w-1/4 transition-height duration-500 ease-in-out block px-3 py-2 bg-white border shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500"
           value={searchCity}
           onChange={e => setSearchCity(e.target.value)}
         >
-          <option value="">Filter by city</option>
+          <option value="">All Locations</option>
           {cities.map((city, i) => (
             <option key={i} value={city}>{city}</option>
           ))}
         </select>
         <select
-          className="rounded-lg transition-height duration-500 ease-in-out block px-3 py-2 bg-white border shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500"
+          className="rounded-lg w-1/4 transition-height duration-500 ease-in-out block px-3 py-2 bg-white border shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500"
           value={channelFilter}
           onChange={e => setChannelFilter(e.target.value)}
         >
@@ -153,7 +153,7 @@ function MyComponent() {
           ))}
         </select>
       </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 rounded-lg transition-height duration-500 ease-in-out">
+        <div className="grid p-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 rounded-lg transition-height duration-500 ease-in-out">
         {filteredVacancies.length > 0 ? (
           filteredVacancies.map((vacancy, index) => (
             <React.Suspense key={index} fallback={<div>Loading...</div>}>
