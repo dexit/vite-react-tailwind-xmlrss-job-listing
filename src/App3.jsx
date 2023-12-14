@@ -2,7 +2,7 @@ import { useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import React from 'react'
-function MyComponent() {
+function MyComponent2() {
   const [vacancies, setVacancies] = React.useState([])
   const [searchTerm, setSearchTerm] = React.useState('')
   const [selectedVacancy, setSelectedVacancy] = React.useState(null)
@@ -131,11 +131,11 @@ function MyComponent() {
                 <h2 className="w-full group-hover:text-gray-700 text-xl font-semibold mb-2">{vacancy.jobtitle}</h2>
 
                 <div className="text-sm text-gray-400 group-hover:text-gray-400">
-                  {vacancy.city}, {vacancy.location}
+                  City: {vacancy.city}, {vacancy.location}
                 </div>
                 <div className="text-sm mb-2 text-gray-400 group-hover:text-gray-500" >
                  
-                {vacancy.salaryrange}
+                Salary: {vacancy.salaryrange}
                 
                 </div>
 
@@ -195,4 +195,4 @@ function MyComponent() {
     </React.Fragment>
   )
 }
-export default MyComponent
+export default MyComponent2
