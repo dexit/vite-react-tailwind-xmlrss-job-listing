@@ -96,7 +96,7 @@ function MyComponent() {
 
   return (
     <React.Fragment>
-      <div className="flex space-x-2 mb-4">
+      <div className="flex space-x-2 mb-4 p-3">
         <input
           type="text"
           className="flex-1 block px-3 py-2 bg-white border shadow-sm border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-500 rounded-lg transition-height duration-500 ease-in-out"
@@ -117,7 +117,7 @@ function MyComponent() {
           ))}
         </select>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 rounded-lg transition-height duration-500 ease-in-out">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 rounded-lg transition-height duration-500 ease-in-out p-3">
         {filteredVacancies.length > 0 ? (
           filteredVacancies.map((vacancy, index) => (
             <React.Suspense key={index} fallback={<div>Loading...</div>}>
@@ -125,22 +125,22 @@ function MyComponent() {
                 data-part="vacancy"
                 id={vacancy.reference}
                 data-jobref={vacancy.reference}
-                className="card flex vacancy flex-wrap w-full justify-between bg-white p-4 shadow-lg rounded-lg transition-height duration-500 ease-in-out"
+                className="card group flex vacancy flex-wrap w-full justify-between bg-white p-4 hover:shadow-lg hover:bg-slate-100 hover:cursor-pointer  border border-slate-100 hover:border-slate-200 rounded-lg transition-height duration-500 ease-in-out"
               >
-                <div className="w-full dflex text-sm text-left text-gray-400">Ref: {vacancy.reference}</div>
-                <h2 className="w-full text-xl font-semibold mb-2">{vacancy.jobtitle}</h2>
+                <div className="w-full group-hover:text-gray-400 dflex text-sm text-left text-gray-400">Ref: {vacancy.reference}</div>
+                <h2 className="w-full group-hover:text-gray-700 text-xl font-semibold mb-2">{vacancy.jobtitle}</h2>
 
-                <div className="text-sm text-gray-400">
+                <div className="text-sm text-gray-400 group-hover:text-gray-400">
                   {vacancy.city}, {vacancy.location}
                 </div>
-                <p className="text-sm mb-2 text-gray-500">
+                <p className="text-sm mb-2 text-gray-500 group-hover:text-gray-500">
                   {vacancy.vacancydescription.split(' ').slice(0, 25).join(' ')}
                   {vacancy.vacancydescription.length > 25 ? '...' : ''}
                 </p>
 
-                <div className="text-sm text-gray-400">Closing: {vacancy.closingdate}</div>
+                <div className="text-sm text-gray-400 group-hover:text-gray-400">Closing: {vacancy.closingdate}</div>
                 <button
-                  className="mt-2 text-green-500 hover:underline py-2"
+                  className="mt-2 text-green-500 hover:underline py-2 group-hover:text-green-500 hover:underline-offset-4 transition-all"
                   onClick={() => handleDetailsClick(vacancy)}
                 >
                   More Details
