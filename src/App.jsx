@@ -117,7 +117,7 @@ function MyComponent() {
           ))}
         </select>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6 rounded-lg transition-height duration-500 ease-in-out p-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 rounded-lg transition-height duration-500 ease-in-out p-3">
         {filteredVacancies.length > 0 ? (
           filteredVacancies.map((vacancy, index) => (
             <React.Suspense key={index} fallback={<div>Loading...</div>}>
@@ -125,7 +125,7 @@ function MyComponent() {
                 data-part="vacancy"
                 id={vacancy.reference}
                 data-jobref={vacancy.reference}
-                className="card group flex vacancy flex-wrap w-full justify-between bg-white p-4 hover:shadow-lg hover:bg-slate-100 hover:cursor-pointer  border border-slate-100 hover:border-slate-200 rounded-lg transition-height duration-500 ease-in-out"
+                className="card group flex vacancy flex-wrap w-full justify-between bg-white p-4 hover:shadow-lg hover:bg-slate-100 hover:cursor-pointer  border border-gray-200 hover:border-slate-300 rounded-lg transition-height duration-500 ease-in-out"
               >
                 <div className="w-full group-hover:text-gray-400 dflex text-sm text-left text-gray-400">Ref: {vacancy.reference}</div>
                 <h2 className="w-full group-hover:text-gray-700 text-xl font-semibold mb-2">{vacancy.jobtitle}</h2>
