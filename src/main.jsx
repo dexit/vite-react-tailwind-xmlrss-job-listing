@@ -4,7 +4,7 @@ import MyComponent from './App'
 import './index.css'
 import './main.scss'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById('channel1')).render(
   <React.StrictMode>
     <MyComponent />
   </React.StrictMode>
