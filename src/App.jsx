@@ -109,7 +109,7 @@ function MyComponent() {
           value={searchCity}
           onChange={e => setSearchCity(e.target.value)}
         >
-          <option value="">Filter by city</option>
+          <option value="">Location</option>
           {cities.map((city, i) => (
             <option key={i} value={city}>
               {city}
@@ -154,8 +154,9 @@ function MyComponent() {
         ) : (
           <p>No vacancies found.</p>
         )}
-           <span> Total : {filteredVacancies.length} </span>
       </div>
+      <div className="flex w-full text-gray-500 p-3"> Results shown : {filteredVacancies.length} </div>
+
       {isDetailsPopupOpen && selectedVacancy && (
         <div
           className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full transition-opacity duration-300 ease-in-out"
