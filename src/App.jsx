@@ -76,13 +76,33 @@ function MyComponent() {
 
   const renderVacancyDetails = vacancy => {
     return Object.entries(vacancy).map(([key, value], index) => (
-      <div data-part={key} key={index} className="align-left flex flex-wrap mb-2">
-        <div className="text-left text-sm pl-2" data-part={key}>
-          <span className="text-sm text-left font-bold">
+      <div data-part={key} key={index} className="align-left flex flex-wrap m-2">
+        <div className="flex flex-wrap gap-2 text-left text-sm pl-0" data-part={key}>
+        {key === 'company' ? (
+       <></>
+        ) : key === 'title' ? (
+          <></>
+           ) : key === 'salaryrange' ? (
+            <label for={key} className="text-sm text-left font-bold">
+           Salary:
+          </label>
+             ) : key === 'jobtitle' ? (
+     <></>
+             ) : key === 'vacancyname' ? (
+              <></>
+                      ): key === 'vacancydescription' ? (
+                        <></>
+                                ): key === 'closingdate' ? (
+                                  <label for={key} className="text-sm text-left font-bold">
+                                Closing Date:
+                                 </label>
+                                          ) : (
+          <label for={key} className="text-sm text-left font-bold">
             {key.charAt(0).toUpperCase() + key.slice(1).replace(/([a-z])([A-Z])/g, '$1 $2')}: 
-          </span>
-        </div>
-   {key === 'joburl' ? (
+          </label>
+        )}
+
+          {key === 'joburl' ? (
           <a
             href={value}
             target="_blank"
@@ -109,16 +129,26 @@ function MyComponent() {
           <p className='text-left text-sm pl-2'>External Vacancies</p>
 
       ) : key === 'vacancydescription' ? (
-          <div className="text-left text-sm pl-2" data-part={key} dangerouslySetInnerHTML={{ __html: value }}></div>
+<></>
         ) : key === 'description' ? (
           <div className="text-left text-sm pl-2" data-part={key} dangerouslySetInnerHTML={{ __html: value }}></div>
         ) : key === 'link' ? (
           <a href={value} target="_blank" rel="noopener noreferrer" className="text-blue-600 text-sm hover:underline pl-2">
             Source Job Post
           </a>
-        ) : (
-          <span className="text-left text-sm pl-2" data-part={key}>{value}</span>
+        ) : key === 'company' ? (
+          <></>
+        ) : key === 'jobtitle' ? (
+          <></>
+        ) : key === 'title' ? (
+          <></>
+        ): key === 'vacancyname' ? (
+          <></>
+        ): (
+          <div className="text-left text-sm pl-0" data-part={key}>{value}</div>
         )}
+        </div>
+
       </div>
     ));
   };
@@ -219,17 +249,17 @@ function MyComponent() {
             className="relative top-20 mx-auto p-5 border w-4/5 shadow-lg rounded-md bg-white transition-transform duration-300 ease-in-out"
             onClick={e => e.stopPropagation()}
           >
-            <div className="flex absolute right-0 text-right items-right px-4 py-3">
+            <div className="flex top-[-26px] absolute right-[-22px] text-right items-right px-4 py-3">
               <button
-                className="top-0 right-0 px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-auto shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors duration-300"
+                className="top-0 right-0 px-4 py-2 bg-red-500 shadow-lg text-white text-base font-medium rounded-md w-auto shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors duration-300"
                 onClick={handleCloseDetails}
               >
-                Close
+                X
               </button>
             </div>
             <div className="mt-3 text-left">
               <h3 className="text-lg leading-6 font-medium text-gray-900">{selectedVacancy.jobtitle}</h3>
-              <div className="mt-2 px-2 py-3 vacanypopup" data-part="popupVacancy">
+              <div className="flex flex-wrap justify-between	mt-2 px-2 py-3 vacanypopup" data-part="popupVacancy">
                 {renderVacancyDetails(selectedVacancy)}
               </div>
             </div>
