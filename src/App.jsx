@@ -187,7 +187,7 @@ function MyComponent() {
         {filteredVacancies.length > 0 ? (
           filteredVacancies.map((vacancy, index) => (
             <React.Suspense key={index} fallback={<div>Loading...</div>}>
-              <div
+              <div onClick={() => handleDetailsClick(vacancy)} 
                 data-part="vacancy"
                 id={vacancy.reference}
                 data-jobref={vacancy.reference}
@@ -242,7 +242,7 @@ function MyComponent() {
 
       {isDetailsPopupOpen && selectedVacancy && (
         <div
-          className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full transition-opacity duration-300 ease-in-out"
+          className="fixed z-[200] inset-0 bg-gray-600 bg-opacity-50 overflow-auto h-full w-full transition-opacity duration-300 ease-in-out"
           onClick={handleCloseDetails}
         >
           <div
