@@ -191,7 +191,7 @@ function MyComponent() {
                 data-part="vacancy"
                 id={vacancy.reference}
                 data-jobref={vacancy.reference}
-                                className="card group flex vacancy flex-wrap w-full justify-between bg-white p-4 hover:shadow-lg hover:bg-slate-100 hover:cursor-pointer  border border-gray-200 hover:border-slate-300 rounded-lg transition-height duration-500 ease-in-out"
+                                className="card  group flex vacancy flex-wrap w-full justify-between bg-white p-4 hover:shadow-lg hover:bg-slate-100 hover:cursor-pointer  border border-gray-200 hover:border-slate-300 rounded-lg transition-height duration-500 ease-in-out"
 >
                 <div className="w-full group-hover:text-gray-400 dflex text-sm text-left text-gray-400">
                   Ref: {vacancy.reference}
