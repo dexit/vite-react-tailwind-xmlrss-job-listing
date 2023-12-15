@@ -12,3 +12,20 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+div[data-part="description"] ul {
+list-style-position: inside!important;
+    padding: 10px 0!important;
+    padding-bottom: 10px!important;
+  }
+
+  div[data-part="jobtitle"],
+  div[data-part="title"],
+  div[data-part="vacancydescription"],
+  div[data-part="vacancyname"],
+  div[data-part="vacancydescription"] {
+    display: none!important;
+  }
+
+  div[data-part="description"] {
+    order:10;
+  }
