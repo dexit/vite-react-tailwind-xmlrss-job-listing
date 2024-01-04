@@ -228,7 +228,7 @@ function MyComponent() {
                   </>
                 )}
                 <button
-                  className="mt-2 text-green-500 hover:underline py-2 group-hover:text-green-500 hover:underline-offset-4 transition-all"
+                  className="mt-2 text-emerald-500 hover:underline py-2 group-hover:text-emerald-500 hover:underline-offset-4 transition-all"
                   onClick={() => handleDetailsClick(vacancy)}
                 >
                   More Details
@@ -250,7 +250,7 @@ function MyComponent() {
           onClick={handleCloseDetails}
         >
           <div
-            className="relative top-20 mx-auto p-5 border w-auto xl:w-3/5 md:w-4/5 sm:w-11/12 shadow-lg rounded-md bg-white transition-width duration-180 linear transition-transform duration-300 ease-in-out"
+            className="relative top-20 mx-auto p-5 border w-11/12 xl:w-2/5 lg:w-3/5 md:w-4/5 sm:w-10/12 shadow-lg rounded-md bg-white transition-width duration-180 linear transition-transform duration-300 ease-in-out"
             onClick={e => e.stopPropagation()}
           >
             <div className="flex top-[-26px] absolute right-[-22px] text-right items-right px-4 py-3">
