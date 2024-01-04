@@ -76,7 +76,9 @@ function MyComponent() {
 
   const renderVacancyDetails = vacancy => {
     return Object.entries(vacancy).map(([key, value], index) => (
-      <div data-part={key} key={index} className="align-left flex flex-wrap m-2">
+  
+      <div data-part={key} key={index} className="align-left flex justify-between flex-wrap m-2 mb-2 sm:mr-2 justify-start md:justify-between w-auto md:mr-0 xl:mr-0">
+        
         <div className="flex flex-wrap gap-2 text-left text-sm pl-0" data-part={key}>
         {key === 'company' ? (
        <></>
@@ -88,6 +90,8 @@ function MyComponent() {
           </label>
              ) : key === 'jobtitle' ? (
      <></>
+             ) : key === 'joburl' ? ( 
+<></>
              ) : key === 'vacancyname' ? (
               <></>
                       ): key === 'vacancydescription' ? (
@@ -102,12 +106,12 @@ function MyComponent() {
           </label>
         )}
 
-          {key === 'joburl' ? (
+          {key === 'joburl' ? (            
           <a
             href={value}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 text-sm hover:underline pl-2"
+            className="text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:ring-emerald-300 font-medium rounded-lg text-sm px-1 py-0.5 dark:bg-emerald-600 dark:hover:bg-emerald-700 focus:outline-none dark:focus:ring-emerald-800"
           >
             Click to Apply!
           </a>
@@ -131,7 +135,7 @@ function MyComponent() {
       ) : key === 'vacancydescription' ? (
 <></>
         ) : key === 'description' ? (
-          <div className="text-left text-sm pl-2" data-part={key} dangerouslySetInnerHTML={{ __html: value }}></div>
+          <div className="text-left text-sm pl-0" data-part={key} dangerouslySetInnerHTML={{ __html: value }}></div>
         ) : key === 'link' ? (
           <a href={value} target="_blank" rel="noopener noreferrer" className="text-blue-600 text-sm hover:underline pl-2">
             Source Job Post
@@ -155,16 +159,16 @@ function MyComponent() {
 
   return (
     <React.Fragment>
-      <div className="flex space-x-2 mb-4 p-3">
+      <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1  gap-4 space-x-0 md:space-x-0 sm:space-x-0 mb-4 p-3">
         <input
           type="text"
-          className="flex-1 block w-2/4 px-3 py-2 bg-white border shadow-sm border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-500 rounded-lg transition-height duration-500 ease-in-out"
+          className="flex-1 block w-full px-3 py-2 bg-white border shadow-sm border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-500 rounded-lg transition-height duration-500 ease-in-out"
           placeholder="Search by title..."
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
         />
         <select
-          className="rounded-lg w-1/4 transition-height duration-500 ease-in-out block px-3 py-2 bg-white border shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500"
+          className="rounded-lg w-full  transition-height duration-500 ease-in-out block px-3 py-2 bg-white border shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500"
           value={searchCity}
           onChange={e => setSearchCity(e.target.value)}
         >
@@ -174,7 +178,7 @@ function MyComponent() {
           ))}
         </select>
         <select
-          className="rounded-lg w-1/4 transition-height duration-500 ease-in-out block px-3 py-2 bg-white border shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500"
+          className="rounded-lg w-full transition-height duration-500 ease-in-out block px-3 py-2 bg-white border shadow-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500"
           value={channelFilter}
           onChange={e => setChannelFilter(e.target.value)}
         >
@@ -246,7 +250,7 @@ function MyComponent() {
           onClick={handleCloseDetails}
         >
           <div
-            className="relative top-20 mx-auto p-5 border w-4/5 shadow-lg rounded-md bg-white transition-transform duration-300 ease-in-out"
+            className="relative top-20 mx-auto p-5 border w-auto xl:w-3/5 md:w-4/5 sm:w-11/12 shadow-lg rounded-md bg-white transition-width duration-180 linear transition-transform duration-300 ease-in-out"
             onClick={e => e.stopPropagation()}
           >
             <div className="flex top-[-26px] absolute right-[-22px] text-right items-right px-4 py-3">
@@ -259,7 +263,7 @@ function MyComponent() {
             </div>
             <div className="mt-3 text-left">
               <h3 className="text-lg leading-6 font-medium text-gray-900">{selectedVacancy.jobtitle}</h3>
-              <div className="flex flex-wrap justify-between	mt-2 px-2 py-3 vacanypopup" data-part="popupVacancy">
+              <div className="flex w-full flex-wrap justify-between mt-2 px-0 py-0 vacanypopup" data-part="popupVacancy">
                 {renderVacancyDetails(selectedVacancy)}
               </div>
             </div>
